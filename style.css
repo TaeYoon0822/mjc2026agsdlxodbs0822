@@ -1,0 +1,64 @@
+* {
+    margin: auto;
+    padding: auto;
+}
+
+
+
+body {
+    background: linear-gradient(135deg, #020111, #191621, #3D1B5D);
+    color: #7FFF00;
+    padding: 10%;
+}
+
+#album-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
+p {
+    text-align: center;
+}
+
+.lyrics-box {
+    background:rgba(255, 0, 128, 0.2);
+    border-radius: 12px;
+    font-size: 1rem;
+}        
+
+.highlight {
+    color: rgb(25, 0, 51);
+    background:#ADFF2F;
+    border-radius: 12px;
+}
+
+#album-table {
+    border-collapse: collapse;
+    
+}
+
+th, td {
+    border-bottom: 1px solid rgba(225,225,225,0.5);
+    padding: 10px;
+    text-align: start;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 0, 128, 0.2);
+}
+
+.listen-btn {
+    background: #01CDFE;
+    color: #020111;
+    border-radius: 50px;
+    width:100%;
+}
+
+a {
+    text-decoration: none;
+}
