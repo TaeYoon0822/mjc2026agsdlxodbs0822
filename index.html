@@ -3,196 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>2조 최애 앨범 소개</title>
-</head>
+    <title>나만의 마법 매거진</title>
+    <style>
+        /* 1. 기본 설정 및 테마 변수 */
+        :root {
+            --bg-color: #87CEFA;
+            --text-color: #222;
+            --point-color: #e11d48;
+            --border-color: #333;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', 'Georgia', serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
+
+        /* =========================================
+           [실습 1] CSS Grid 메인 레이아웃 만들기
+           ========================================= */
+        .magazine-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 4px solid var(--border-color);
+            padding: 20px;
+            
+            /* TODO 1: 여기를 Grid로 만들고, 가로를 3등분(1fr 2fr 1fr) 하세요. 간격은 20px! */
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap:20px;
+            
+        }
+
+        header {
+            /* TODO 2: 헤더가 첫 칸부터 끝 칸까지 전체 너비를 차지하게 하세요. */
+            grid-column: 1/-1;
+
+            text-align: center;
+            border-bottom: 4px solid var(--border-color);
+            padding-bottom: 20px; margin-bottom: 20px;
+        }
+        header h1 { font-style:italic; font-size: 3rem; font-weight: 900; }
+
+        .blue {color: rgb(0, 153, 255);}
+        
+        aside { padding: 10px; }
+        main { border-left: 5px solid var(--border-color); border-right: 5px solid var(--border-color); padding: 0 20px; }
+
+        /* =========================================
+           [실습 2] 내부 기사 카드 Grid 배열
+           ========================================= */
+        .article-grid {
+            /* TODO 3: 메인 영역 내부 기사들도 Grid로 만드세요 (1fr 1fr 2단 구성, 간격 15px) */
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+
+        }
+
+        /* 기사 카드 스타일 및 Transition (마우스 오버 효과) */
+        .magic-card {
+            border-bottom: 1px solid #ccc; padding-bottom: 15px; overflow: hidden;
+            /* TODO 4: 마우스를 올렸을 때 부드럽게 위로 살짝 떠오르도록 Transition과 transform을 추가해보세요. */
+            transition: transform 1s ease;
+        }
+        .magic-card:hover{
+            transform: translateY(-20px);
+        }
+        .magic-card img { width: 100%; height: 180px; object-fit: cover; }
+
+        /* =========================================
+           [실습 3] @keyframes 애니메이션 만들기
+           ========================================= */
+        .ticker-wrap { width: 100%; overflow: hidden; background: var(--border-color); color: #fff; padding: 10px 0; margin-bottom: 20px; }
+        .ticker-move {
+            display: inline-block; white-space: nowrap;
+            /* TODO 5: 아래 만든 slide-left 애니메이션을 10초 동안 무한 반복(infinite) 선형(linear)으로 적용하세요. */
+            animation-name: slide-left;
+            animation-iteration-count: infinite;
+            animation-duration: 10s;
+            animation-timing-function: linear;
+
+        }
+        
+        /* 텍스트가 흘러가는 애니메이션 */
+        @keyframes slide-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* NEW 뱃지 깜빡임 애니메이션 */
+        .badge-new {
+            display: inline-block; background: var(--point-color); color: white; padding: 2px 8px; font-size: 0.8rem; border-radius: 12px; margin-bottom: 10px;
+            /* TODO 6: 여기에 직접 새로운 @keyframes를 만들어 적용해보세요! (예: 둥둥 뜨기, 깜빡이기) */
+            animation-name: bounce;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-duration: 1s;
+        }
+        @keyframes bounce {
+            0% {transform:translateY(-20%);}
+            100%{transform:translatY(20%);}
+        }
+
+        /* 반응형 모바일 설정 */
+        @media (max-width: 800px) {
+            .magazine-layout { grid-template-columns: 1fr; }
+            header { grid-column: 1; }
+            main { border: none; padding: 0; margin: 20px 0; }
+            .article-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
 <body>
 
-    <header id="album-header">
+    <div class="magazine-layout">
+        <header>
+            <h1><span class="blue">Blue</span> Arcive</h1>
+            <p>Vol. 1 | 2026. 04. 23 | 내가 직접 소개하는 블아 소식</p>
+        </header>
 
-        <p class="artist-name">NO:EL(노엘)</p>
-
-        <h1>3rd Album [TRIPONOEL]</h1>
-
-        <p class="subtitle">리듬을 타게하는 매력! 플레이리스트!</p>
-
-    </header>
-
-
-
-
-    <section class="lyrics-secton">
-
-        <h2>🔮🎵내가 선정한 킬링파트!!</h2>
-
-        <div class = "lyrics-box">
-
-            <p>비틀비틀 거리는 내 몸이</p>
-
-            <p>다시 일어설 수 있게</p>
-
-            <p class="highlight">나를 꼭 붙잡아줘</p>
-
+        <!-- 흘러가는 속보 -->
+        <div class="ticker-wrap" style="grid-column: 1 / -1;">
+            <div class="ticker-move">🔥!속보! 일섭 블루 아카이브 7차 PV 업로드 지금 바로 시청하세요!🔥 🔥이번 업데이트로 일섭 가챠연출에 "프라나" 등장!🔥 </div>
         </div>
 
-    </section>
-    
-    <section class="album-section">
+        <aside>
+            <h2 style="border-bottom: 2px solid var(--point-color); margin-bottom: 15px;">Profile</h2>
+            <div style="background: #fff; padding: 15px; border: 1px solid #ddd;">
+                <h4>김용하PD의 명언</h4>
+                <p style="font-size: 0.9rem; color: #666;"><b><br>"블루아카이브는 정말 건전하고 건강하고 밝은 게임인데.."</br></b><b><br>"안심하십시오, 블루아카이브는 안전합니다!"</br></b><b><br>’노출에 한계는 있어도 페티쉬는 무한대‘</br></b></p>
+            </div>
+        </aside>
+
+        <main>
+            <div class="article-grid">
+                <!-- 기사 카드 1 -->
+                <article class="magic-card">
+                    <span class="badge-new">NEW</span>
+                    <img src="https://cdn.ipnn.co.kr/news/photo/202504/412020_66369_4924.jpg" alt: 블루아카이브 시스터즈 이벤트>  
+                    <h3 style="font-size: 1.1rem; margin: 10px 0;">한섭 블루 아카이브 복각 이벤트 및 한정 복각 픽업 개최!</h3>
+                    <p style="font-size: 0.9rem; color: #555;">"4월21일 한섭 블루아카이브는 "Serenade Promenade" 복각 이벤틀를 진행 "마리(아이돌)" ,"미네(아이돌)" ,"사쿠라코(아이돌)"을 얻을 기회!!</p>
+                </article>
+
+                <!-- 기사 카드 2 -->
+                <article class="magic-card">
+                    <span class="badge-new" style="background:#3b82f6;">HOT</span>
+                    <img src="https://dszw1qtcnsa5e.cloudfront.net/community/20260417/9c5a69c0-b5f1-4b35-8ff3-ea52746c97a5/BA%EC%B9%B4%ED%8E%98%EB%A9%94%EB%AA%A8%EB%A6%AC%EC%96%BC%EC%8B%9C%EC%A6%8C3%EC%95%88%EB%82%B4%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0780x440.png" alt="카페 메모리얼 시즌 3사진">
+                    <h3 style="font-size: 1.1rem; margin: 10px 0;">한국 카페 메모리얼 시즌3 개최!</h3>
+                    <p style="font-size: 0.9rem; color: #555;">4월 17일 ~ 시즌3 종료일 까지 운영 이번에는 아비도스,와일드헌트 캐릭터로 굿즈와 음식 구매가능!!</p>
+                </article>
+            </div>
+        </main>
+
+        <aside>
+            <h2 style="border-bottom: 2px solid var(--point-color); margin-bottom: 15px;">Ad</h2>
+            <div style="background: #333; color: #fff; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center;">
+                <img src="https://i.namu.wiki/i/9UVGfmhOl7DQ8tztJ_7RZDnb0tM80jgB0QJvSQrk76s2sX1ksQEl5yraJZM1pTzptjEw5eyR3aIsBvLGdTEC4dn9BvlqsfWgga-vhEGaH58VLduQqPRn8aVq3Z7ZpJ8q0-9yemKepxJPg_WxyP_pcQ.webp" alt="블루아카이브 애니메이션 포스터" width="250px" height="270px"   
+            </div>
+        </aside>
+    </div>
 
-        <h2>🎧같은 앨범 수록 곡 모음</h2>
-
-        <table id="album-table">
-
-            <thead>
-
-                <tr>
-
-                    <th>Track</th>
-
-                    <th>곡명</th>
-
-                    <th>Play Time</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr>
-
-                    <td>#01</td>
-
-                    <td>BAD TRIP</td>
-
-                    <td>2:51</td>
-                </tr>
-
-                <tr>
-
-                    <td>#02</td>
-
-                    <td>너(Feat.덜말릭(DON MALIK))</td>
-
-                    <td>3:24</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#03</td>
-
-                    <td>태어나</td>
-
-                    <td>3:28</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#04</td>
-
-                    <td>꽃(Feat.Benzamin)</td>
-
-                    <td>3:10</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#05</td>
-
-                    <td>Runaway</td>
-
-                    <td>2:40</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#06</td>
-
-                    <td>비틀비틀</td>
-
-                    <td>3:34</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#07</td>
-
-                    <td>어른아이</td>
-
-                    <td>3:16</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#08</td>
-
-                    <td>Once Upon A Time</td>
-
-                    <td>3:48</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#09</td>
-
-                    <td>내가 사라진다면</td>
-
-                    <td>4:26</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#010</td>
-
-                    <td>바보</td>
-
-                    <td>3:22</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#011</td>
-
-                    <td>소행성(Feat.MELOH)</td>
-
-                    <td>3:33</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>#012</td>
-
-                    <td>영원히</td>
-
-                    <td>3:18</td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </section>
-
-    <footer id="album-footer">
-
-        <button class="listen-btn">
-
-            <a target="_blank" href="https://www.youtube.com/watch?v=aoCkciWwX1E&list=RDaoCkciWwX1E&start_radio=1">▶️노래 들으러 가기</a></button>
-
-    </footer>
-    
 </body>
-
 </html>
